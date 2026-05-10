@@ -1,0 +1,7 @@
+.ipynb_checkpoints/ 
+# Chặn toàn bộ file trong thư mục Data
+Data/*
+
+# Loại trừ (cho phép) 2 file clean này được push lên
+!Data/Cleaned_Books_Data.csv
+!Data/Clean_reviewers_data_without_comment.csv
