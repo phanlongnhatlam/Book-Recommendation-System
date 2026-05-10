@@ -9,6 +9,33 @@ from hybrid_recommender import (
     svdpp_model,
     book_indices,
 )
+import gspread
+from google.oauth2.service_account import Credentials
+
+def save_rating_to_sheets(new_rows):
+    try:
+        scope = [
+            'https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive'
+        ]
+        creds  = Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"], scopes=scope
+        )
+        client = gspread.authorize(creds)
+        sheet  = client.open("new_ratings").sheet1
+
+        for _, row in new_rows.iterrows():
+            sheet.append_row([
+                str(row['user_id']),
+                str(row['book_id']),
+                str(row['rating']),
+                pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
+            ])
+        return True
+    except Exception as e:
+        st.error(f"Lỗi lưu rating: {e}")
+        return False
+
 
 st.set_page_config(page_title="Book Recommender", page_icon="📚", layout="wide")
 
@@ -265,5 +292,8 @@ with tab3:
                 header=not pd.io.common.file_exists('new_ratings.csv'),
                 index=False
             )
-            st.caption("💾 Sở thích của bạn đã được lưu lại!")
+            if save_rating_to_sheets(new_rows):
+                st.caption("💾 Sở thích của bạn đã được lưu lại!")
+            else:
+                st.caption("💾 Sở thích của bạn đã được lưu lại!")
         
