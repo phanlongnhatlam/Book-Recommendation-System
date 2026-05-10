@@ -24,16 +24,23 @@ def save_rating_to_sheets(new_rows):
         client = gspread.authorize(creds)
         sheet  = client.open("new_ratings").sheet1
 
+        # Chuyển DataFrame thành list of lists để append một lần (nhanh hơn rất nhiều)
+        rows_to_append = []
         for _, row in new_rows.iterrows():
-            sheet.append_row([
+            rows_to_append.append([
                 str(row['user_id']),
                 str(row['book_id']),
                 str(row['rating']),
                 pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
             ])
+            
+        # Dùng append_rows (có chữ s) thay vì append_row trong vòng lặp
+        sheet.append_rows(rows_to_append)
         return True
+        
     except Exception as e:
-        st.error(f"Lỗi lưu rating: {e}")
+        # Thay vì in ra lỗi đỏ làm hỏng giao diện, ta chỉ in ngầm vào log
+        print(f"Lỗi lưu Google Sheets: {e}") 
         return False
 
 
