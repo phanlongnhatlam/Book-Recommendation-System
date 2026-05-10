@@ -30,7 +30,8 @@ def save_rating_to_sheets(new_rows):
         creds  = Credentials.from_service_account_info(
             gcp_info, scopes=scope
         )
-        sheet_url = "https://docs.google.com/spreadsheets/d/1ZWdWhZS_esFTYXCqmmUodqdMdWWbGM3yG-LeA8E1zv0/edit?gid=0#gid=0"
+        client = gspread.authorize(creds)
+        sheet_url = "https://docs.google.com/spreadsheets/d/1ZWdWhZS_esFTYXCqmmUodqdMdWWbGM3yG-LeA8E1zv0/edit"
         sheet  = client.open_by_url(sheet_url).sheet1
 
         # Chuyển DataFrame thành list of lists để append một lần
