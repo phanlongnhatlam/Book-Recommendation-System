@@ -300,7 +300,7 @@ with tab3:
                 index=False
             )
             if save_rating_to_sheets(new_rows):
-                st.caption("💾 Sở thích của bạn đã được lưu lại!")
+                st.caption("✅ Sở thích của bạn đã được lưu lên Cloud để học hỏi!")
             else:
-                st.caption("💾 Sở thích của bạn đã được lưu lại!")
-        
+                st.caption("⚠️ Không thể lưu lên Cloud, nhưng hệ thống vẫn ghi nhận cục bộ.")
+                    
