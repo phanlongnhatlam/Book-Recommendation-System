@@ -248,11 +248,15 @@ with tab3:
 
                 # Normalize CB → [1, 5]
                 if cb_scores:
-                    min_cb   = min(cb_scores.values())
-                    max_cb   = max(cb_scores.values())
-                    cb_range = max_cb - min_cb if max_cb != min_cb else 1
+                    # min_cb   = min(cb_scores.values())
+                    # max_cb   = max(cb_scores.values())
+                    # cb_range = max_cb - min_cb if max_cb != min_cb else 1
+                    # cb_scores = {
+                    #     k: 1 + 4 * (v - min_cb) / cb_range
+                    #     for k, v in cb_scores.items()
+                    # }
                     cb_scores = {
-                        k: 1 + 4 * (v - min_cb) / cb_range
+                        k: float(np.clip(v, 1, 5)) # Giữ nguyên giá trị thô hoặc nhân với hệ số cố định
                         for k, v in cb_scores.items()
                     }
 
