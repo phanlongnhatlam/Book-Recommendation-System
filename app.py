@@ -300,7 +300,7 @@ with tab3:
                # Lưu rating mới của user vào file để retrain sau
             new_rows = pd.DataFrame([
                 {
-                    'user_id' : f"{pd.Timestamp.now().strftime('%Y%m%d%H%M%S')}",
+                    'user_id' : f"{pd.Timestamp.now().strftime('%Y%m%d%H')}",
                     'book_id' : int(title_to_id[title]),
                     'rating'  : user_ratings[title]
                 }
