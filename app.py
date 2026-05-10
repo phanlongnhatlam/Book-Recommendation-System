@@ -257,11 +257,11 @@ with tab3:
                 #     }
 
                 if cb_scores:
-                cb_scores = {
-                    # Đưa thẳng v (0->1) sang thang (1->5)
-                    k: float(np.clip(1 + 4 * v, 1, 5)) 
-                    for k, v in cb_scores.items()
-                }
+                    cb_scores = {
+                        # Đưa thẳng v (0->1) sang thang (1->5)
+                        k: float(np.clip(1 + 4 * v, 1, 5)) 
+                        for k, v in cb_scores.items()
+                    }
 
                 # Loại sách đã chọn khỏi kết quả
                 candidate_ids = set(df_books['book_id']) - set(rated_book_ids)
