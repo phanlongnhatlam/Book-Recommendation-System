@@ -39,9 +39,7 @@ def save_rating_to_sheets(new_rows):
         return True
         
     except Exception as e:
-        # Thay vì in ra lỗi đỏ làm hỏng giao diện, ta chỉ in ngầm vào log
-        print(f"Lỗi lưu Google Sheets: {e}") 
-        return False
+        raise e
 
 
 st.set_page_config(page_title="Book Recommender", page_icon="📚", layout="wide")
