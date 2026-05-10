@@ -109,7 +109,7 @@ def render_book_card(row, score_label=None, score_value=None):
         c1, c2 = st.columns(2)
         c1.metric("⭐ Avg Rating", f"{row.get('avg_rating', 'N/A')}")
         if score_label and score_value is not None:
-            c2.metric(f"🎯 {score_label}", f"{score_value:.2f}")
+            c2.metric(f"🎯 {score_label}", f"{score_value:.3f}")
         desc = str(row.get('description', ''))
         if desc and desc != 'nan':
             with st.expander("📄 Xem mô tả"):
