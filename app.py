@@ -41,7 +41,7 @@ def save_rating_to_sheets(new_rows):
                 str(row['user_id']),
                 str(row['book_id']),
                 str(row['rating']),
-                pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
+                pd.Timestamp.now(tz='Asia/Ho_Chi_Minh').strftime('%Y-%m-%d %H:%M:%S')
             ])
             
         # Dùng append_rows (có chữ s)
