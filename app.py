@@ -18,13 +18,23 @@ def save_rating_to_sheets(new_rows):
             'https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive'
         ]
+        
+        # 1. Lấy dữ liệu từ Streamlit Secrets và chuyển thành Dictionary chuẩn
+        gcp_info = dict(st.secrets["gcp_service_account"])
+        
+        # 2. FIX LỖI CHÍNH Ở ĐÂY: Xử lý ký tự xuống dòng bị lỗi
+        if "private_key" in gcp_info:
+            gcp_info["private_key"] = gcp_info["private_key"].replace("\\n", "\n")
+            
+        # 3. Sử dụng bộ key đã được "dọn dẹp" sạch sẽ
         creds  = Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"], scopes=scope
+            gcp_info, scopes=scope
         )
+        
         client = gspread.authorize(creds)
         sheet  = client.open("new_ratings").sheet1
 
-        # Chuyển DataFrame thành list of lists để append một lần (nhanh hơn rất nhiều)
+        # Chuyển DataFrame thành list of lists để append một lần
         rows_to_append = []
         for _, row in new_rows.iterrows():
             rows_to_append.append([
@@ -34,13 +44,13 @@ def save_rating_to_sheets(new_rows):
                 pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
             ])
             
-        # Dùng append_rows (có chữ s) thay vì append_row trong vòng lặp
+        # Dùng append_rows (có chữ s)
         sheet.append_rows(rows_to_append)
         return True
         
     except Exception as e:
+        # Tạm thời vẫn giữ raise e để nếu có lỗi khác nó sẽ báo thẳng ra web cho mình dễ fix
         raise e
-
 
 st.set_page_config(page_title="Book Recommender", page_icon="📚", layout="wide")
 
